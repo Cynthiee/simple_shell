@@ -1,5 +1,6 @@
-#ifndef SHELL_H
-#define SHELL_H
+
+#ifndef _SHELL_H_
+#define _SHELL_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -89,7 +90,7 @@ typedef struct passinfo
 	int env_changed;
 	int status;
 
-	char *cmd_buf; / pointer to cmd ; chain buffer, for memory mangement */
+	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
 	int cmd_buf_type; /* CMD_type ||, &&, ; */
 	int readfd;
 	int histcount;
@@ -112,7 +113,7 @@ typedef struct builtin
 
 
 /* toem_shloop.c */
-int hsh(info_t , char *);
+int hsh(info_t *, char **);
 int find_builtin(info_t *);
 void find_cmd(info_t *);
 void fork_cmd(info_t *);
@@ -184,12 +185,12 @@ int _myalias(info_t *);
 
 /*toem_getline.c */
 ssize_t get_input(info_t *);
-int _getline(info_t , char *, size_t *);
+int _getline(info_t *, char **, size_t *);
 void sigintHandler(int);
 
 /* toem_getinfo.c */
 void clear_info(info_t *);
-void set_info(info_t , char *);
+void set_info(info_t *, char **);
 void free_info(info_t *, int);
 
 /* toem_environ.c */
@@ -212,8 +213,8 @@ int build_history_list(info_t *info, char *buf, int linecount);
 int renumber_history(info_t *info);
 
 /* toem_lists.c */
-list_t add_node(list_t *, const char *, int);
-list_t add_node_end(list_t *, const char *, int);
+list_t *add_node(list_t **, const char *, int);
+list_t *add_node_end(list_t **, const char *, int);
 size_t print_list_str(const list_t *);
 int delete_node_at_index(list_t **, unsigned int);
 void free_list(list_t **);
@@ -233,3 +234,4 @@ int replace_vars(info_t *);
 int replace_string(char **, char *);
 
 #endif
+
